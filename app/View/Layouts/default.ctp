@@ -29,6 +29,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	<?php
 		echo $this->Html->meta('icon');
 		echo $this->Html->css('bootstrap');
+		echo $this->Html->css('sticky_footer');
 
 		echo $this->Html->script('jquery-1.11.2');
 		echo $this->Html->script('bootstrap');
@@ -70,14 +71,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-	<div id="container">
+	<div class="container">
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
 	</div>
-	<div id="footer">
-		<p>
-			VS Tournament Gaming Copyright <?php echo date('Y'); ?>
-		</p>
-	</div>
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">
+				VS Tournament Gaming Copyright <?php echo date('Y'); ?>
+			</p>
+		</div>
+	</footer>
 </body>
 </html>
