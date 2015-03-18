@@ -41,12 +41,16 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
+	public function login() {
+
+	}
+
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
+	public function register() {
 		if ($this->request->is('post')) {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
