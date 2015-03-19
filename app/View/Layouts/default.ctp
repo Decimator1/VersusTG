@@ -52,7 +52,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li><?php echo $this->Html->link(__('Home'), array('controller' => 'posts','action' => 'index')); ?></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
             <li class="dropdown">
@@ -64,8 +64,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">Login</a></li>
-            <li><a href="../navbar-static-top/">Register</a></li>
+            <li><?php echo $this->Html->link(__('Login'), array('controller' => 'users' ,'action' => 'login')); ?></li>
+            <li><?php echo $this->Html->link(__('Register'), array('controller' => 'users','action' => 'register')); ?></li>
             <li class="active"><a href="./">Shopping Cart<span class="sr-only">(current)</span></a></li>
           </ul>
         </div><!--/.nav-collapse -->

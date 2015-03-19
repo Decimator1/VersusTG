@@ -3,7 +3,7 @@
 	<legend><?php echo __('Login'); ?></legend>
 		<?php
 			echo $this->Form->input('username', array('label' => 'User Name','class'=>'form-control','div' => 'form-group'));
-			echo $this->Form->input('password', array('type'=>'password','label' => 'Last Name','class'=>'form-control','div' => 'form-group'));
+			echo $this->Form->input('password', array('type'=>'password','label' => 'Password','class'=>'form-control','div' => 'form-group'));
 		?>
 <?php echo $this->Form->end(array('label' => 'Login','class' => 'btn-lg btn-primary')); ?>
 </div>
