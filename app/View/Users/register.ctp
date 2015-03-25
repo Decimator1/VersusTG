@@ -4,6 +4,7 @@
 			<?php
 				echo $this->Form->input('username', array('label' => 'Username','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('password', array('label' => 'Password','class'=>'form-control','div' => 'form-group'));
+				echo $this->Form->input('email', array('label' => 'E-Mail','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('fname', array('label' => 'First Name','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('lname', array('label' => 'Last Name','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('address', array('label' => 'Address','class'=>'form-control','div' => 'form-group'));

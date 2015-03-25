@@ -48,11 +48,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">VS Tournament Gaming</a>
+          <?php echo $this->Html->link('VS Tournament Gaming', array('controller' => 'posts','action' => 'index'), array('class' => 'navbar-brand')); ?></li>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><?php echo $this->Html->link(__('Home'), array('controller' => 'posts','action' => 'index')); ?></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
             <li class="dropdown">
