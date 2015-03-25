@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 28, 2015 at 02:03 PM
+-- Generation Time: Mar 17, 2015 at 09:47 PM
 -- Server version: 5.5.40-0ubuntu1
 -- PHP Version: 5.5.12-2ubuntu4.1
 
@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `cards` (
 `itemid` int(11) NOT NULL,
+  `card_name` varchar(100) NOT NULL,
   `rule_text` text NOT NULL,
   `flavor_text` text NOT NULL,
   `mana_cost` varchar(20) NOT NULL,
@@ -67,7 +68,15 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `body` text NOT NULL,
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='blog posts' AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COMMENT='blog posts' AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `posts`
+--
+
+INSERT INTO `posts` (`id`, `title`, `body`, `created`, `modified`) VALUES
+(1, 'Test Post', 'Ignore please', '2015-03-07 17:43:53', '2015-03-07 17:43:53'),
+(2, 'another test', 'let''s do this', '2015-03-07 17:58:13', '2015-03-07 17:58:13');
 
 -- --------------------------------------------------------
 
@@ -149,7 +158,7 @@ MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `tournaments`
 --
