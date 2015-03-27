@@ -41,10 +41,6 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
-	public function login() {
-
-	}
-
 /**
  * add method
  *
