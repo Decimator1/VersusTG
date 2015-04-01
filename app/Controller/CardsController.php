@@ -22,8 +22,10 @@ class CardsController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Card->recursive = 0;
-		$this->set('cards', $this->Paginator->paginate());
+		$this->Card->setDataSource('cards');
+		$params = array('limit' => 20, 'page' => 1);
+		$results = $this->Card->find('all', $params);
+		$this->set('cards', $results);
 	}
 
 /**
