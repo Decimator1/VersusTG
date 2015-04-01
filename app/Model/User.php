@@ -68,58 +68,27 @@ class User extends AppModel {
             )
         ),
 
-        'lname' => array(
-           'required' => array(
-               'rule' => array('notEmpty'),
-               'message' => 'A last name is required'
-            )
-        ),
-
-        'address' => array(
-           'required' => array(
-               'rule' => array('notEmpty'),
-               'message' => 'An address is required'
-            )
-        ),
-
-        'city' => array(
-           'required' => array(
-               'rule' => array('notEmpty'),
-               'message' => 'A city is required'
-            )
-        ),
-
         'state' => array(
-           'required' => array(
-               'rule' => array('notEmpty'),
-               'message' => 'A city is required'
+           'between' => array(
+               'rule' => array('maxLength, 2'),
+               'message' => 'Only state abbreviations of two characters are allowed',
+               'allowEmpty' => true,
+               'required' => false
             )
         ),
 
         'zip' => array(
-           'required' => array(
-               'rule' => array('notEmpty'),
-               'message' => 'A zip code is required'
-            ),
-            'between' => array(
-            	'rule' => array('between', 5, 10),
-            	'message' => 'Zip code must be between 5-10 characters'
-            ),
-            'NumericDash' => array(
-                'rule'    => array('NumericDash'),
-                'message' => 'Zip code can only be numbers and dashes'
-            )
+            'rule' => array('postal', null, 'us'),
+            'message' => 'Please enter a valid ZIP code',
+            'allowEmpty' => true,
+            'required' => false
         ),
 
         'phone' => array(
-           'required' => array(
-               'rule' => array('notEmpty'),
-               'message' => 'A phone number is required'
-            ),
-            'NumericDash' => array(
-                'rule'    => array('NumericDash'),
-                'message' => 'Phone number can only be numbers and dashes'
-            )
+            'rule' => array('phone', null, 'us'),
+            'message' => 'Please enter a valid phone number',
+            'allowEmpty' => true,
+            'required' => false
         ),
 
         'role' => array(
