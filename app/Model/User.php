@@ -26,7 +26,7 @@ class User extends AppModel {
 				'message' => 'Usernames must be between 5 to 15 characters'
 			),
 			 'unique' => array(
-                'rule'    => array('isUniqueUsername'),
+                'rule'    => array('isUnique'),
                 'message' => 'This username is already in use'
             ),
             'alphaNumericDashUnderscore' => array(
@@ -52,7 +52,7 @@ class User extends AppModel {
                 'message' => 'Please provide a valid email address.'   
             ),
              'unique' => array(
-                'rule'    => array('isUniqueEmail'),
+                'rule'    => array('isUnique'),
                 'message' => 'This email is already in use',
             ),
             'between' => array( 
@@ -70,7 +70,7 @@ class User extends AppModel {
 
         'state' => array(
            'between' => array(
-               'rule' => array('maxLength, 2'),
+               'rule' => array('maxLength', 2),
                'message' => 'Only state abbreviations of two characters are allowed',
                'allowEmpty' => true,
                'required' => false
