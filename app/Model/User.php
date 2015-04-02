@@ -1,5 +1,6 @@
 <?php
 App::uses('AppModel', 'Model');
+App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 /**
  * User Model
  *
@@ -109,67 +110,16 @@ class User extends AppModel {
         ),
 	);
 
-	/**
-     * Before isUniqueUsername
-     * @param array $options
-     * @return boolean
-     */
-	function isUniqueUsername($check) {
-
-		$username = $this->find(
-			'first',
-			array(
-				'fields' => array(
-					'id',
-					'username'
-				),
-				'conditions' => array(
-					'username' => $check['username']
-				)
-			)
-		);
-
-		if(!empty($username)){
-            if($this->data[$this->alias]['id'] == $username['User']['id']){
-                return true; 
-            }else{
-                return false; 
-            }
-        }else{
-            return true; 
+    public function beforeSave($options = array()) {
+        if (isset($this->data[$this->alias]['password'])) {
+            $passwordHasher = new BlowfishPasswordHasher();
+            $this->data[$this->alias]['password'] = $passwordHasher->hash(
+                $this->data[$this->alias]['password']
+            );
         }
-	}
-
-	/**
-     * Before isUniqueEmail
-     * @param array $options
-     * @return boolean
-     */
-    function isUniqueEmail($check) {
- 
-        $email = $this->find(
-            'first',
-            array(
-                'fields' => array(
-                    'id'
-                ),
-                'conditions' => array(
-                    'email' => $check['email']
-                )
-            )
-        );
- 
-        if(!empty($email)){
-            if($this->data[$this->alias]['id'] == $email['User']['id']){
-                return true; 
-            }else{
-                return false; 
-            }
-        }else{
-            return true; 
-        }
+        return true;
     }
-
+    
 	public function alphaNumericDashUnderscore($check) {
         // $data array is passed using the form field name as the key
         // have to extract the value to make the function generic
@@ -178,16 +128,6 @@ class User extends AppModel {
  
         return preg_match('/^[a-zA-Z0-9_ \-]*$/', $value);
     }
-
-    public function NumericDash($check) {
-        // $data array is passed using the form field name as the key
-        // have to extract the value to make the function generic
-        $value = array_values($check);
-        $value = $value[0];
- 
-        return preg_match('/^[0-9- \-]*$/', $value);
-    }
-
 
     public function equaltofield($check,$otherfield) 
     { 
