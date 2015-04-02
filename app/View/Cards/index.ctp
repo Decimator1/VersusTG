@@ -1,4 +1,4 @@
-<?php //debug($cards);die; ?>
+<?php //debug($page);die; ?>
 <div class="cards index">
 	<h2><?php echo __('Cards'); ?></h2>
 	<table class="table table-responsive">
@@ -18,7 +18,9 @@
 	<tbody>
 	<?php foreach ($cards as $card): ?>
 	<tr>
-		<!--<td><?php if(isset($card['Card']['itemid'])){echo h($card['Card']['itemid']);}?>&nbsp;</td>-->
+		<!--<td><?php if(isset($card['Card']['_id
+'])){echo h($card['Card']['_id
+']);}?>&nbsp;</td>-->
 		<td><?php if(isset($card['Card']['name'])){echo h($card['Card']['name']);} ?>&nbsp;</td>
 		<td><?php if(isset($card['Card']['text'])){echo h($card['Card']['text']);} ?>&nbsp;</td>
 		<td><?php if(isset($card['Card']['flavor'])){echo h($card['Card']['flavor']);} ?>&nbsp;</td>
@@ -27,9 +29,9 @@
 		<td><?php //echo h($card['Card']['card_condition']); ?>&nbsp;</td>
 		<td><?php if(isset($card['Card']['rarity'])){echo h($card['Card']['rarity']);} ?>&nbsp;</td>
 		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $card['Card']['itemid'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $card['Card']['itemid'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $card['Card']['itemid']), array('confirm' => __('Are you sure you want to delete # %s?', $card['Card']['itemid']))); ?>
+			<?php echo $this->Html->link(__('View'), array('action' => 'view', $card['Card']['_id'])); ?>
+			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $card['Card']['_id'])); ?>
+			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $card['Card']['_id']), array('confirm' => __('Are you sure you want to delete # %s?', $card['Card']['_id']))); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
@@ -37,15 +39,10 @@
 	</table>
 	<div class="paging">
 	<?php
-		//echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		//echo $this->Paginator->numbers(array('separator' => ''));
-		//echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
+	if($page > 1) {
+		echo $this->Html->link('Previous', array('controller' => 'cards', 'action' => 'index', $page-1), array('class' => 'btn btn-primary'));
+	}
+		echo $this->Html->link('Next', array('controller' => 'cards', 'action' => 'index', $page+1), array('class' => 'btn btn-primary'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Card'), array('action' => 'add')); ?></li>
-	</ul>
 </div>
