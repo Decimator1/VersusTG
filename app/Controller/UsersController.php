@@ -41,17 +41,35 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
+	public function beforeFilter() {
+	    parent::beforeFilter();
+	    // Allow users to register and logout.
+	    $this->Auth->allow('register', 'logout');
+	}
+
+	public function login() {
+	    if ($this->request->is('post')) {
+	        if ($this->Auth->login()) {
+	            return $this->redirect($this->Auth->redirectUrl());
+	        }
+	        $this->Session->setFlash(__('Invalid username or password, try again'));
+	    }
+	}
+
+	public function logout() {
+	    return $this->redirect($this->Auth->logout());
+	}
 /**
  * add method
  *
  * @return void
  */
-	public function add() {
+	public function register() {
 		if ($this->request->is('post')) {
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}

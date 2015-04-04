@@ -1,34 +1,37 @@
 <div class="cards view">
-<h2><?php echo __('Card'); ?></h2>
+<h2><?php echo __($card['Card']['name']); ?></h2>
 	<dl>
+		<dt><?php echo __('Image'); ?></dt>
+		<dd>
+			<?php echo $this->Html->image("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=".$card['Card']['multiverseid']."&type=card");?>
+		</dd>
 		<dt><?php echo __('Itemid'); ?></dt>
 		<dd>
-			<?php echo h($card['Card']['itemid']); ?>
+			<?php echo h($card['Card']['_id']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Rule Text'); ?></dt>
 		<dd>
-			<?php echo h($card['Card']['rule_text']); ?>
+			<?php if(!empty($card['Card']['text'])){ echo h($card['Card']['text']);} ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Flavor Text'); ?></dt>
 		<dd>
-			<?php echo h($card['Card']['flavor_text']); ?>
+			<?php if(!empty($card['Card']['flavor'])){echo h($card['Card']['flavor']);} ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Mana Cost'); ?></dt>
 		<dd>
-			<?php echo h($card['Card']['mana_cost']); ?>
+			<?php echo h($card['Card']['manaCost']); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Card Set'); ?></dt>
 		<dd>
-			<?php echo h($card['Card']['card_set']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Card Condition'); ?></dt>
-		<dd>
-			<?php echo h($card['Card']['card_condition']); ?>
+			<?php
+			foreach ($card['Card']['sets'] as $set) {
+				echo h($set)."\n";
+			}
+			?> 
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Rarity'); ?></dt>
@@ -37,13 +40,4 @@
 			&nbsp;
 		</dd>
 	</dl>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit Card'), array('action' => 'edit', $card['Card']['itemid'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete Card'), array('action' => 'delete', $card['Card']['itemid']), array(), __('Are you sure you want to delete # %s?', $card['Card']['itemid'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Cards'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Card'), array('action' => 'add')); ?> </li>
-	</ul>
 </div>

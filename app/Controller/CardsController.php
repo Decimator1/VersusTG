@@ -21,9 +21,26 @@ class CardsController extends AppController {
  *
  * @return void
  */
-	public function index() {
-		$this->Card->recursive = 0;
-		$this->set('cards', $this->Paginator->paginate());
+	public function index($page = null) {
+		$stuffToSortBy = array(
+			'name',
+			'multiverseid',
+			'manaCost',
+			'rarity'
+		);
+
+		foreach($stuffToSortBy as $field) {
+			$this->Card->virtualFields[$field] = true;
+		}
+		$this->set('cards', $this->paginate('Card'));
+		foreach ($stuffToSortBy as $field) {
+			unset($this->Card->virtualFields[$field]);
+		}
+		$this->Card->setDataSource('cards');
+		$params = array('limit' => 20, 'page' => $page);
+		$results = $this->Card->find('all', $params);
+		$this->set('cards', $results);
+		$this->set('page', $page);
 	}
 
 /**
@@ -35,10 +52,10 @@ class CardsController extends AppController {
  */
 	public function view($id = null) {
 		if (!$this->Card->exists($id)) {
-			throw new NotFoundException(__('Invalid card'));
+			//throw new NotFoundException(__('Invalid card'));
 		}
-		$options = array('conditions' => array('Card.' . $this->Card->primaryKey => $id));
-		$this->set('card', $this->Card->find('first', $options));
+		$options = array('conditions' => array('_id' => $id));
+		$this->set('card', $this->Card->find('first',$options));
 	}
 
 /**
