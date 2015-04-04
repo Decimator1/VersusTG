@@ -10,6 +10,11 @@
 			<?php echo h($card['Card']['_id']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Card Name'); ?></dt>
+		<dd>
+			<?php echo h($card['Card']['card_name']); ?>
+			&nbsp;
+		</dd>		
 		<dt><?php echo __('Rule Text'); ?></dt>
 		<dd>
 			<?php if(!empty($card['Card']['text'])){ echo h($card['Card']['text']);} ?>

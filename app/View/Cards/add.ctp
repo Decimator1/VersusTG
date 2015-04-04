@@ -3,6 +3,7 @@
 	<fieldset>
 		<legend><?php echo __('Add Card'); ?></legend>
 	<?php
+		echo $this->Form->input('card_name')
 		echo $this->Form->input('rule_text');
 		echo $this->Form->input('flavor_text');
 		echo $this->Form->input('mana_cost');
