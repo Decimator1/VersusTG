@@ -63,8 +63,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <?php if(!$this->Session->check('Auth.User')) : ?>
             <li><?php echo $this->Html->link(__('Login'), array('controller' => 'users' ,'action' => 'login')); ?></li>
             <li><?php echo $this->Html->link(__('Register'), array('controller' => 'users','action' => 'register')); ?></li>
+          <?php else: ?>
+            <li><?php echo $this->Html->link(__('My Account'), array('controller' => 'users' ,'action' => 'view', $this->Session->read('Auth.User.id'))); ?></li>
+            <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'users' ,'action' => 'logout')); ?></li>
+          <?php endif; ?>
             <li class="active"><a href="./">Shopping Cart<span class="sr-only">(current)</span></a></li>
           </ul>
         </div><!--/.nav-collapse -->
