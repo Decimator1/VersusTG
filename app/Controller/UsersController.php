@@ -50,9 +50,13 @@ class UsersController extends AppController {
 	public function login() {
 	    if ($this->request->is('post')) {
 	        if ($this->Auth->login()) {
-	            return $this->redirect($this->Auth->redirectUrl());
+	            return $this->redirect($this->referer());
 	        }
 	        $this->Session->setFlash(__('Invalid username or password, try again'));
+	    }
+	    if($this->Session->check('Auth.User.id')){
+			$this->Session->setFlash(__('Already logged in'), 'default', array('class' => 'alert alert-info'));
+	    	$this->redirect($this->referer());
 	    }
 	}
 
