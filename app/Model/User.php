@@ -23,7 +23,6 @@ class User extends AppModel {
 			),
 			'between' => array(
 				'rule' => array('between', 5, 15),
-				'required' => true,
 				'message' => 'Usernames must be between 5 to 15 characters'
 			),
 			 'unique' => array(
@@ -80,7 +79,7 @@ class User extends AppModel {
             )
         ),
 
-        'state' => array(
+       'state' => array(
            'between' => array(
                'rule' => array('maxLength', 2),
                'message' => 'Only state abbreviations of two characters are allowed',
@@ -101,14 +100,6 @@ class User extends AppModel {
             'message' => 'Please enter a valid phone number',
             'allowEmpty' => true,
             'required' => false
-        ),
-
-        'role' => array(
-           'valid' => array(
-               'rule' => array('inList', array('admin', 'employee', 'customer')),
-               'message' => 'Please enter a valid role',
-               'allowEmpty' => false
-           )
         ),
 
         'email_update' => array(
