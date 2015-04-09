@@ -8,13 +8,13 @@ App::uses('AppController', 'Controller');
  * @property SessionComponent $Session
  */
 class TournamentsController extends AppController {
-
 /**
  * Components
  *
  * @var array
  */
 	public $components = array('Paginator', 'Session');
+
 
 /**
  * index method
@@ -56,6 +56,10 @@ class TournamentsController extends AppController {
 				$this->Session->setFlash(__('The tournament could not be saved. Please, try again.'));
 			}
 		}
+	}
+
+	public function register() {
+
 	}
 
 /**
