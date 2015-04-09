@@ -59,8 +59,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">Cards</a></li>
                 <li><a href="#">Accessory</a></li>
+
               </ul>
             </li>
+            <li><?php echo $this->Html->link(__('Tournaments'), array('controller' => 'tournaments' ,'action' => 'index')); ?></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <?php if(!$this->Session->check('Auth.User')) : ?>
