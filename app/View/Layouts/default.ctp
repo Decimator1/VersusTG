@@ -52,8 +52,10 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="#about">About</a></li>
+            <li><a href="www.vstg.net/about">About</a></li>
             <li><a href="#contact">Contact</a></li>
+            <li><a href="https://vstg.forums.net/">Forums</a><li>
+            <li><?php echo $this->Html->link(__('Tournaments'), array('controller' => 'tournaments' ,'action' => 'register')); ?></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Store Menu <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -69,7 +71,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             <li><?php echo $this->Html->link(__('Login'), array('controller' => 'users' ,'action' => 'login')); ?></li>
             <li><?php echo $this->Html->link(__('Register'), array('controller' => 'users','action' => 'register')); ?></li>
           <?php else: ?>
-            <li><?php echo $this->Html->link(__('My Account'), array('controller' => 'users' ,'action' => 'view', $this->Session->read('Auth.User.id'))); ?></li>
+            <li><?php echo $this->Html->link(__('My Account'), array('controller' => 'users' ,'action' => 'edit', $this->Session->read('Auth.User.id'))); ?></li>
             <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'users' ,'action' => 'logout')); ?></li>
           <?php endif; ?>
             <li class="active"><a href="./">Shopping Cart<span class="sr-only">(current)</span></a></li>
