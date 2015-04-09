@@ -1,3 +1,10 @@
+<?php 
+if($this->Session->check('Auth.User.id')){
+			$this->Session->setFlash(__('Already logged in'), 'default', array('class' => 'alert alert-info'));
+	    	$this->redirect($this->referer());
+	    }
+?>
+
 <div class="col-md-8 col-md-offset-2">
 	<?php echo $this->Form->create('User'); ?>
 		<legend><?php echo __('Register Account'); ?></legend>
