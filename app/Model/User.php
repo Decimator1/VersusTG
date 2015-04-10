@@ -58,7 +58,7 @@ class User extends AppModel {
             ),
             'between' => array( 
                 'rule' => array('between', 6, 60), 
-                'message' => 'Usernames must be between 6 to 60 characters'
+                'message' => 'Emails must be between 6 to 60 characters'
             )
         ),
 
@@ -100,12 +100,40 @@ class User extends AppModel {
            )
         ),
 
+        'email_update' => array(
+            'required' => array(
+                'rule' => array('email', true),    
+                'message' => 'Please provide a valid email address.'   
+            ),
+             'unique' => array(
+                'rule'    => array('isUnique'),
+                'message' => 'This email is already in use',
+            ),
+            'between' => array( 
+                'rule' => array('between', 6, 60), 
+                'message' => 'Emails must be between 6 to 60 characters'
+            )
+        ),
+
         'password_update' => array(
             'min_length' => array(
                 'rule' => array('minLength', '6'),   
                 'message' => 'Password must have a mimimum of 6 characters',
-                'allowEmpty' => true,
-                'required' => false
+            ),
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Passwords cannot be blank'
+            )
+        ),
+
+        'old_password' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'Your current password is required to change to a new one'
+            ),
+            'match' => array(
+                'rule' => array('matchCurrentPass'),
+                'message' => 'This password does not match the current one'
             )
         ),
 	);
@@ -118,6 +146,11 @@ class User extends AppModel {
             );
         }
         return true;
+    }
+
+    public function matchCurrentPass($check)
+    {
+        
     }
     
 	public function alphaNumericDashUnderscore($check) {

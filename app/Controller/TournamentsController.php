@@ -15,7 +15,7 @@ class TournamentsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-
+	$this->set('tournaments', $this->Tournament->tournament_name->find('list'));
 /**
  * index method
  *
