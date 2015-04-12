@@ -55,11 +55,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             <li><a href="www.vstg.net/about">About</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><?php echo $this->Html->link(__('Tournaments'), array('controller' => 'tournaments' ,'action' => 'register')); ?></li>
+            <li><a href="http://www.vstg.net/about">About</a></li>
+            <li><a href="http://vstg.forums.net/">Forums</a><li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Store Menu <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Cards</a></li>
-                <li><a href="#">Accessory</a></li>
+                <li><?php echo $this->Html->link('Cards', array('controller' => 'cards', 'action' => 'index'));?></li>
+                <li><a href="#">Accessories</a></li>
 
               </ul>
             </li>

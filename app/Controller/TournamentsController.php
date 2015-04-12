@@ -62,6 +62,13 @@ class TournamentsController extends AppController {
 
 	}
 
+	public function beforeFilter() {
+	    parent::beforeFilter();
+	    // Allow users to register and logout.
+	    $this->Auth->allow('index');
+	}
+
+
 /**
  * edit method
  *
