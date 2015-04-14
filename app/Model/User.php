@@ -12,7 +12,7 @@ class User extends AppModel {
  *
  * @var mixed False or table name
  */
-	public $useTable = 'user';
+	public $useTable = 'users';
 
 	public $validate = array(
 		'username' => array(

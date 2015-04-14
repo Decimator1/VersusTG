@@ -21,7 +21,7 @@ class CardsController extends AppController {
  *
  * @return void
  */
-	public function index($page = null) {
+	public function cardsList($page = null) {
 		$stuffToSortBy = array(
 			'name',
 			'multiverseid',
@@ -41,6 +41,11 @@ class CardsController extends AppController {
 		$results = $this->Card->find('all', $params);
 		$this->set('cards', $results);
 		$this->set('page', $page);
+	}
+
+	public function index() {
+
+
 	}
 
 /**

@@ -4,12 +4,14 @@
 	<h2><?php echo __('Latest Blog Posts'); ?></h2>
 	<div class="row">
 		<?php foreach ($posts as $post): ?>
-			<div class="col-xs-12">
-				<h3><?php echo $this->Html->link(__($post['Post']['title']), array('action' => 'view', $post['Post']['id'])); ?></h3>
-				<hr/>
-				<td><?php echo h($post['Post']['body']); ?>&nbsp;</td>
-
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h1 class="panel-title"><?php echo $this->Html->link(__($post['Post']['title']), array('action' => 'view', $post['Post']['id']));?></h1>
 			</div>
+			<div class="panel-body">
+				<?php echo h($post['Post']['body']); ?>
+			</div>
+		</div>
 		<?php endforeach; ?>
 	</div>
 	<p>
