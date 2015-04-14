@@ -52,7 +52,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="www.vstg.net/about">About</a></li>
             <li><a href="#contact">Contact</a></li>
             <li><a href="http://www.vstg.net/about">About</a></li>
             <li><a href="https://vstg.forums.net/">Forums</a><li>
@@ -65,7 +64,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
               </ul>
             </li>
             <li><?php echo $this->Html->link(__('Tournaments'), array('controller' => 'tournaments' ,'action' => 'index')); ?></li>
-            <li><a href="https://vstg.forums.net/">Forums</a><li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <?php if(!$this->Session->check('Auth.User')) : ?>
