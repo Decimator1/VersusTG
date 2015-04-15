@@ -54,7 +54,7 @@ class User extends AppModel {
             ),
              'unique' => array(
                 'rule'    => array('isUnique'),
-                'message' => 'This email is already in use',
+                'message' => 'This email is already in use'
             ),
             'between' => array( 
                 'rule' => array('between', 6, 60), 
@@ -107,7 +107,7 @@ class User extends AppModel {
             ),
              'unique' => array(
                 'rule'    => array('isUnique'),
-                'message' => 'This email is already in use',
+                'message' => 'This email is already in use'
             ),
             'between' => array( 
                 'rule' => array('between', 6, 60), 
@@ -150,7 +150,7 @@ class User extends AppModel {
 
     public function matchCurrentPass($check)
     {
-        
+        return AuthComponent::password($this->data[$this->alias]['old_password']) == $this->User->field('password');
     }
     
 	public function alphaNumericDashUnderscore($check) {

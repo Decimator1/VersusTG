@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Users Controller
  *
@@ -61,6 +62,7 @@ class UsersController extends AppController {
 	}
 
 	public function logout() {
+		$this->Session->setFlash(__('You have been logged out'), 'default', array('class' => 'alert alert-info'));
 	    return $this->redirect($this->Auth->logout());
 	}
 /**
@@ -71,6 +73,7 @@ class UsersController extends AppController {
 	public function register() {
 		if ($this->request->is('post')) {
 			$this->User->create();
+			$this->User->set('group_id', 3);
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved.'));
 				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
@@ -110,16 +113,15 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			$this->User->id = $id;
-			$url = $this->params['url'];
-			$newEmail = $url['email_update'];
-			if ($this->Post->saveField('email', $newEmail)) {
+			$this->User->id = $this->Session->read('Auth.User.id');
+			if ($this->User->saveField('email', $this->request->data['User']['email_update'], true)) {
 				$this->Session->setFlash(__('Your email has been updated'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('Your email could not be updated. Please try again'));
 			}
-		} else {
+		} 
+		else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
@@ -128,15 +130,17 @@ class UsersController extends AppController {
 	public function passwordedit($id = null) {
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
-		}
+		}	
 		if ($this->request->is(array('post', 'put'))) {
+			$this->User->id = $this->Session->read('Auth.User.id');
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
+				$this->Session->setFlash(__('Your password has been updated'));
 				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		} 
+			} 
+			else {
+				$this->Session->setFlash(__('Your password has not been updated. Please, try again.'));
+			} 
+		}
 		else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
@@ -160,6 +164,54 @@ class UsersController extends AppController {
 		}
 	}
 
+	public function sendusernameemail() {
+		if ($this->request->is(array('post', 'put'))) {
+			$accountEmail = $this->request->data['User']['email'];
+			if ($this->User->findByEmail($accountEmail))
+			{
+				$user = $this->User->findByEmail($accountEmail);
+				$username = $user['User']['username'];
+				$firstname = $user['User']['fname'];
+				$message = 'Hello ' . $firstname . ',' . "\r\n" . "\r\n" . 'Your request to find your username has been processed. Your username is ' . $username . '. Thank you for being a valued member of the VSTG community.';
+
+				$Email = new CakeEmail('gmail');
+				$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
+    			->to($accountEmail)
+    			->subject('Your VSTG Account Username');
+				if ($Email->send($message))
+				{
+					$this->Session->setFlash(__('An email containing your username was sent to the entered email address'));
+				} 
+			}
+			else {
+				$this->Session->setFlash(__('This email address has no account associated with it'));
+			}
+		}
+	}
+
+	public function sendpasswordemail() {
+		if ($this->request->is(array('post', 'put'))) {
+			$accountUserName = $this->request->data['User']['username'];
+			if ($this->User->findByEmail($username))
+			{
+				$user = $this->User->findByEmail($username);
+				$username = $user['User']['username'];
+				$message = 'Hello ' . $username . ',' . "\r\n" . "\r\n" . 'Your request to reset your password has been processed. Please click the link to reset your password:'
+
+				$Email = new CakeEmail('gmail');
+				$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
+    			->to($accountEmail)
+    			->subject('Your VSTG Account Username');
+				if ($Email->send($message))
+				{
+					$this->Session->setFlash(__('An email containing a link to reset your password was sent to your email address'));
+				} 
+			}
+			else {
+				$this->Session->setFlash(__('This username has no account associated with it'));
+			}
+		}
+	}
 /**
  * delete method
  *
