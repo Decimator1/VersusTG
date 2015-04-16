@@ -1,3 +1,10 @@
+<?php 
+if($this->Session->check('Auth.User.id')){
+			$this->Session->setFlash(__('Already logged in'), 'default', array('class' => 'alert alert-info'));
+	    	$this->redirect($this->referer());
+	    }
+?>
+
 <div class="col-md-8 col-md-offset-2">
 	<?php echo $this->Form->create('User'); ?>
 		<legend><?php echo __('Register Account'); ?></legend>
@@ -7,7 +14,7 @@
 			<?php
 				echo $this->Form->input('username', array('label' => 'Username*','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('email', array('label' => 'E-Mail*','class'=>'form-control','div' => 'form-group'));
-				echo $this->Form->input('password', array('label' => 'Password*','class'=>'form-control','div' => 'form-group'));
+				echo $this->Form->input('password', array('type'=>'password', 'label' => 'Password*','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('fname', array('label' => 'First Name*','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('lname', array('label' => 'Last Name','class'=>'form-control','div' => 'form-group'));
 				//Check if admin before displaying this

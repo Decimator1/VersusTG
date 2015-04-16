@@ -50,14 +50,18 @@ class UsersController extends AppController {
 	public function login() {
 	    if ($this->request->is('post')) {
 	        if ($this->Auth->login()) {
-	            return $this->redirect($this->Auth->redirectUrl());
+	            return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 	        }
 	        $this->Session->setFlash(__('Invalid username or password, try again'));
+	    }
+	    if($this->Session->check('Auth.User.id')){
+			$this->Session->setFlash(__('Already logged in'), 'default', array('class' => 'alert alert-info'));
+	    	$this->redirect($this->referer());
 	    }
 	}
 
 	public function logout() {
-	    return $this->redirect($this->Auth->logout());
+	    return $this->redirect($this->Auth->logout(array('controller' => 'posts', 'action' => 'index')));
 	}
 /**
  * add method
@@ -70,7 +74,8 @@ class UsersController extends AppController {
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved.'));
 				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
-			} else {
+			} 
+			else {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		}
@@ -84,6 +89,61 @@ class UsersController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		if (!$this->User->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->User->save($this->request->data)) {
+				$this->Session->setFlash(__('The user has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->request->data = $this->User->find('first', $options);
+		}
+	}
+
+	public function emailedit($id = null) {
+		if (!$this->User->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			$this->User->id = $id;
+			$url = $this->params['url'];
+			$newEmail = $url['email_update'];
+			if ($this->Post->saveField('email', $newEmail)) {
+				$this->Session->setFlash(__('Your email has been updated'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('Your email could not be updated. Please try again'));
+			}
+		} else {
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->request->data = $this->User->find('first', $options);
+		}
+	}
+
+	public function passwordedit($id = null) {
+		if (!$this->User->exists($id)) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->User->save($this->request->data)) {
+				$this->Session->setFlash(__('The user has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+			}
+		} 
+		else {
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->request->data = $this->User->find('first', $options);
+		}
+	}
+
+	public function shippingedit($id = null) {
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}

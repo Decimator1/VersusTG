@@ -8,7 +8,6 @@ App::uses('AppController', 'Controller');
  * @property SessionComponent $Session
  */
 class TournamentsController extends AppController {
-
 /**
  * Components
  *
@@ -57,6 +56,17 @@ class TournamentsController extends AppController {
 			}
 		}
 	}
+
+	public function register() {
+
+	}
+
+	public function beforeFilter() {
+	    parent::beforeFilter();
+	    // Allow users to register and logout.
+	    $this->Auth->allow('index');
+	}
+
 
 /**
  * edit method

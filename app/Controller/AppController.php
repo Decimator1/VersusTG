@@ -50,11 +50,25 @@ class AppController extends Controller {
                     'passwordHasher' => 'Blowfish'
                 )
             ),
-            'authorize' => array('Controller')
         )
     );
 
     public function beforeFilter() {
         $this->Auth->allow('index', 'view');
+    }
+
+    public function isAuthorized($user = null) {
+        // Any registered user can access public functions
+        if (empty($this->request->params['admin'])) {
+            return true;
+        }
+
+        // Only admins can access admin functions
+        if (isset($this->request->params['admin'])) {
+            return (bool)($user['role'] === 'admin');
+        }
+
+        // Default deny
+        return false;
     }
 }
