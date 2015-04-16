@@ -15,7 +15,6 @@ class TournamentsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-	$this->set('tournaments', $this->Tournament->tournament_name->find('list'));
 /**
  * index method
  *
@@ -61,6 +60,13 @@ class TournamentsController extends AppController {
 	public function register() {
 
 	}
+
+	public function beforeFilter() {
+	    parent::beforeFilter();
+	    // Allow users to register and logout.
+	    $this->Auth->allow('index');
+	}
+
 
 /**
  * edit method

@@ -49,7 +49,6 @@ class AppController extends Controller {
                     'passwordHasher' => 'Blowfish'
                 )
             ),
-            'authorize' => array('Controller')
         )
     );
 

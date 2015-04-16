@@ -51,7 +51,7 @@ class UsersController extends AppController {
 	public function login() {
 	    if ($this->request->is('post')) {
 	        if ($this->Auth->login()) {
-	            return $this->redirect($this->referer());
+	            return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 	        }
 	        $this->Session->setFlash(__('Invalid username or password, try again'));
 	    }
@@ -62,8 +62,7 @@ class UsersController extends AppController {
 	}
 
 	public function logout() {
-		$this->Session->setFlash(__('You have been logged out'), 'default', array('class' => 'alert alert-info'));
-	    return $this->redirect($this->Auth->logout());
+	    return $this->redirect($this->Auth->logout(array('controller' => 'posts', 'action' => 'index')));
 	}
 /**
  * add method
