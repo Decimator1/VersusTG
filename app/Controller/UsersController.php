@@ -164,7 +164,7 @@ class UsersController extends AppController {
 		}
 	}
 
-	public function sendusernameemail() {
+	public function sendusername() {
 		if ($this->request->is(array('post', 'put'))) {
 			$accountEmail = $this->request->data['User']['email'];
 			if ($this->User->findByEmail($accountEmail))
@@ -181,6 +181,7 @@ class UsersController extends AppController {
 				if ($Email->send($message))
 				{
 					$this->Session->setFlash(__('An email containing your username was sent to the entered email address'));
+					$this->redirect(array('controller' => 'posts', 'action' => 'index'));
 				} 
 			}
 			else {
@@ -189,14 +190,14 @@ class UsersController extends AppController {
 		}
 	}
 
-	public function sendpasswordemail() {
+	public function sendpassword() {
 		if ($this->request->is(array('post', 'put'))) {
 			$accountUserName = $this->request->data['User']['username'];
 			if ($this->User->findByEmail($username))
 			{
 				$user = $this->User->findByEmail($username);
 				$username = $user['User']['username'];
-				$message = 'Hello ' . $username . ',' . "\r\n" . "\r\n" . 'Your request to reset your password has been processed. Please click the link to reset your password:'
+				$message = 'Hello ' . $username . ',' . "\r\n" . "\r\n" . 'Your request to reset your password has been processed. Please click the link to reset your password: ';
 
 				$Email = new CakeEmail('gmail');
 				$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
@@ -205,6 +206,7 @@ class UsersController extends AppController {
 				if ($Email->send($message))
 				{
 					$this->Session->setFlash(__('An email containing a link to reset your password was sent to your email address'));
+					$this->redirect(array('controller' => 'posts', 'action' => 'index'));
 				} 
 			}
 			else {

@@ -3,13 +3,13 @@
 	<legend><?php echo __('Login'); ?></legend>
 		<?php
 			echo $this->Form->input('username', array('label' => 'User Name','class'=>'form-control','div' => 'form-group'));
-			echo $this->Html->link('Forgot Username?', array('controller' => 'users', 'action' => 'sendusernameemail'));
+			echo $this->Html->link('Forgot Username?', array('controller' => 'users', 'action' => 'sendusername'));
 		?>
 		<br>
 		<br>
 		<?php
 			echo $this->Form->input('password', array('type'=>'password','label' => 'Password','class'=>'form-control','div' => 'form-group'));
-			echo $this->Html->link('Forgot Password?', array('controller' => 'users', 'action' => 'sendpasswordemail'));
+			echo $this->Html->link('Forgot Password?', array('controller' => 'users', 'action' => 'sendpassword'));
 		?>
 		<br>
 		<br>
