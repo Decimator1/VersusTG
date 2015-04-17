@@ -133,28 +133,37 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}	
 		if ($this->request->is(array('post', 'put'))) {
-			$userID = $this->Session->read('Auth.User.id');
-			$user = $this->User->findById($userID);
+			$this->User->id = $this->Session->read('Auth.User.id');
+			$user = $this->User->findById($this->User->id);
 
 			$passwordHasher = new BlowfishPasswordHasher();
 			$currentPassword = $this->request->data['User']['old_password'];
-			$currentPassword = $passwordHasher->hash($currentPassword);
 			$savedPassword = $user['User']['password'];
+			$newPassword = $this->request->data['User']['password_update'];
+			$confirmPassword = $this->request->data['User']['confirm_password'];
+			
 
-			if ($currentPassword == $savedPassword) {
-				$this->Session->setFlash(__('Passwords match.'), 'default', array('class' => 'alert alert-info'));
+			if ($passwordHasher->check($currentPassword, $savedPassword)) {
+				if ($confirmPassword == $newPassword) {
+					$newPassword = $this->request->data['User']['password_update'];
+					$newPassword = $passwordHasher->hash($newPassword);
+					if ($this->User->saveField('password', $newPassword, true)) {
+						$this->Session->setFlash(__('Your password has been updated'), 'default', array('class' => 'alert alert-info'));
+						return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+					} 
+					else {
+						$this->Session->setFlash(__('Your password could not been updated. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+					} 
+				}
+				else {
+					$this->Session->setFlash(__('The new password and the confirmation fields must match in order to update your password'), 'default', array('class' => 'alert alert-danger'));
+				}
 			}
 			else {
-				$this->Session->setFlash(__('Passwords do not match'), 'default', array('class' => 'alert alert-danger'));
+				$this->Session->setFlash(__('You have entered an invalid password. Please try again'), 'default', array('class' => 'alert alert-danger'));
 			}
 			
-			/*if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('Your password has been updated'), 'default', array('class' => 'alert alert-info'));
-				return $this->redirect(array('action' => 'index'));
-			} 
-			else {
-				$this->Session->setFlash(__('Your password could not been updated. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
-			} */
+			
 		}
 		else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));

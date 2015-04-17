@@ -47,6 +47,17 @@ class User extends AppModel {
             )
         ),
 
+        'confirm_password' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'A password is required'
+            ),
+            'min_length' => array(
+                'rule' => array('minLength', '6'),  
+                'message' => 'Password must have a mimimum of 6 characters'
+            )
+        ),
+
          'email' => array(
             'required' => array(
                 'rule' => array('email', true),    
@@ -130,10 +141,6 @@ class User extends AppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'Your current password is required to change to a new one'
-            ),
-            'match' => array(
-                'rule' => array('matchCurrentPass'),
-                'message' => 'This password does not match the current one'
             )
         ),
 	);
@@ -146,11 +153,6 @@ class User extends AppModel {
             );
         }
         return true;
-    }
-
-    public function matchCurrentPass($check)
-    {
-        return AuthComponent::password($this->data[$this->alias]['old_password']) == $this->User->field('password');
     }
     
 	public function alphaNumericDashUnderscore($check) {
