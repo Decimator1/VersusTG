@@ -146,7 +146,6 @@ class UsersController extends AppController {
 			if ($passwordHasher->check($currentPassword, $savedPassword)) {
 				if ($confirmPassword == $newPassword) {
 					$newPassword = $this->request->data['User']['password_update'];
-					$newPassword = $passwordHasher->hash($newPassword);
 					if ($this->User->saveField('password', $newPassword, true)) {
 						$this->Session->setFlash(__('Your password has been updated'), 'default', array('class' => 'alert alert-info'));
 						return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
@@ -176,15 +175,13 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+			$this->User->id = $this->Session->read('Auth.User.id');
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
+				$this->Session->setFlash(__('Your shipping information has been updated.'), 'default', array('class' => 'alert alert-info'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('Your shipping information could not be updated. Please check for errors below and try again.'), 'default', array('class' => 'alert alert-danger'));
 			}
-		} else {
-			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
-			$this->request->data = $this->User->find('first', $options);
 		}
 	}
 
