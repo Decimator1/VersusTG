@@ -53,7 +53,7 @@ class AppController extends Controller {
     );
 
     public function beforeFilter() {
-        $this->Auth->allow('index', 'view', 'sendusername', 'sendpassword');
+        $this->Auth->allow('index', 'view', 'sendusername', 'sendpassword', 'register');
     }
 
     public function isAuthorized($user = null) {
