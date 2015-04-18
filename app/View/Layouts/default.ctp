@@ -70,14 +70,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             <li><?php echo $this->Html->link(__('Login'), array('controller' => 'users' ,'action' => 'login')); ?></li>
             <li><?php echo $this->Html->link(__('Register'), array('controller' => 'users','action' => 'register')); ?></li>
           <?php else: ?>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Account <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><?php echo $this->Html->link(__('Change Email'), array('controller' => 'users' ,'action' => 'emailedit', $this->Session->read('Auth.User.id'))); ?></li>
-                <li><?php echo $this->Html->link(__('Change Password'), array('controller' => 'users' ,'action' => 'passwordedit', $this->Session->read('Auth.User.id'))); ?></li>
-                <li><?php echo $this->Html->link(__('Change Shipping Information'), array('controller' => 'users' ,'action' => 'shippingedit', $this->Session->read('Auth.User.id'))); ?></li>
-              </ul>
-            </li>
+            <li>  <?php echo $this->Html->link(__('My Account'), array('controller' => 'users','action' => 'view',$this->Session->read('Auth.User.id'))); ?></li>
+              
             <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'users' ,'action' => 'logout')); ?></li>
           <?php endif; ?>
             <li class="active"><a href="./">Shopping Cart<span class="sr-only">(current)</span></a></li>
