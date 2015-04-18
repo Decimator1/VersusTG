@@ -43,18 +43,19 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->find('first', $options));
 	}
 
-	public function beforeFilter() {
+	/*public function beforeFilter() {
 	    parent::beforeFilter();
 	    // Allow users to register and logout.
 	    $this->Auth->allow('register', 'logout');
-	}
+	}*/
 
 	public function login() {
 	    if ($this->request->is('post')) {
 	        if ($this->Auth->login()) {
 	            return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+	            $this->Session->setFlash(__('You have been logged in'), 'default', array('class' => 'alert alert-info'));
 	        }
-	        $this->Session->setFlash(__('Invalid username or password, try again'));
+	        $this->Session->setFlash(__('Invalid username or password, try again'), 'default', array('class' => 'alert alert-danger'));
 	    }
 	    if($this->Session->check('Auth.User.id')){
 			$this->Session->setFlash(__('Already logged in'), 'default', array('class' => 'alert alert-info'));
@@ -76,11 +77,11 @@ class UsersController extends AppController {
 			$this->User->create();
 			$this->User->set('group_id', 3);
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved.'));
+				$this->Session->setFlash(__('Your account has been created.'), 'default', array('class' => 'alert alert-info'));
 				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 			} 
 			else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('Your account could not be created. Please check your information and try again.'), 'default', array('class' => 'alert alert-danger'));
 			}
 		}
 	}
@@ -116,10 +117,10 @@ class UsersController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			$this->User->id = $this->Session->read('Auth.User.id');
 			if ($this->User->saveField('email', $this->request->data['User']['email_update'], true)) {
-				$this->Session->setFlash(__('Your email has been updated'));
+				$this->Session->setFlash(__('Your email has been updated'), 'default', array('class' => 'alert alert-info'));
 				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('Your email could not be updated. Please try again'));
+				$this->Session->setFlash(__('Your email could not be updated. Please try again'), 'default', array('class' => 'alert alert-danger'));
 			}
 		} 
 		else {
@@ -134,13 +135,36 @@ class UsersController extends AppController {
 		}	
 		if ($this->request->is(array('post', 'put'))) {
 			$this->User->id = $this->Session->read('Auth.User.id');
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('Your password has been updated'));
-				return $this->redirect(array('action' => 'index'));
-			} 
+			$user = $this->User->findById($this->User->id);
+
+			$passwordHasher = new BlowfishPasswordHasher();
+			$currentPassword = $this->request->data['User']['old_password'];
+			$savedPassword = $user['User']['password'];
+			$newPassword = $this->request->data['User']['password_update'];
+			$confirmPassword = $this->request->data['User']['confirm_password'];
+			
+
+			if ($passwordHasher->check($currentPassword, $savedPassword)) {
+				if ($confirmPassword == $newPassword) {
+					$newPassword = $this->request->data['User']['password_update'];
+					$newPassword = $passwordHasher->hash($newPassword);
+					if ($this->User->saveField('password', $newPassword, true)) {
+						$this->Session->setFlash(__('Your password has been updated'), 'default', array('class' => 'alert alert-info'));
+						return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+					} 
+					else {
+						$this->Session->setFlash(__('Your password could not been updated. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+					} 
+				}
+				else {
+					$this->Session->setFlash(__('The new password and the confirmation fields must match in order to update your password'), 'default', array('class' => 'alert alert-danger'));
+				}
+			}
 			else {
-				$this->Session->setFlash(__('Your password has not been updated. Please, try again.'));
-			} 
+				$this->Session->setFlash(__('You have entered an invalid password. Please try again'), 'default', array('class' => 'alert alert-danger'));
+			}
+			
+			
 		}
 		else {
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
@@ -181,12 +205,12 @@ class UsersController extends AppController {
     			->subject('Your VSTG Account Username');
 				if ($Email->send($message))
 				{
-					$this->Session->setFlash(__('An email containing your username was sent to the entered email address'));
+					$this->Session->setFlash(__('An email containing your username was sent to the entered email address'), 'default', array('class' => 'alert alert-info'));
 					$this->redirect(array('controller' => 'posts', 'action' => 'index'));
 				} 
 			}
 			else {
-				$this->Session->setFlash(__('This email address has no account associated with it'));
+				$this->Session->setFlash(__('This email address has no account associated with it'), 'default', array('class' => 'alert alert-danger'));
 			}
 		}
 	}
@@ -206,12 +230,12 @@ class UsersController extends AppController {
     			->subject('Your VSTG Account Username');
 				if ($Email->send($message))
 				{
-					$this->Session->setFlash(__('An email containing a link to reset your password was sent to your email address'));
+					$this->Session->setFlash(__('An email containing a link to reset your password was sent to your email address'), 'default', array('class' => 'alert alert-info'));
 					$this->redirect(array('controller' => 'posts', 'action' => 'index'));
 				} 
 			}
 			else {
-				$this->Session->setFlash(__('This username has no account associated with it'));
+				$this->Session->setFlash(__('This username has no account associated with it'), 'default', array('class' => 'alert alert-danger'));
 			}
 		}
 	}
