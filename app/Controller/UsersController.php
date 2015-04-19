@@ -36,9 +36,11 @@ class UsersController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+
 		if (!$this->User->exists($id)) {
 			throw new NotFoundException(__('Invalid user'));
 		}
+		$this->checkUser($id);
 		$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 		$this->set('user', $this->User->find('first', $options));
 	}
@@ -105,8 +107,16 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
 			}
 		} else {
+			$this->checkUser($id);
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
+		}
+	}
+
+	public function checkUser($id = null) {
+		if($id != $this->Session->read('Auth.User.id') && $this->Session->read('Auth.User.group_id') != 1) {
+			$this->Session->setFlash(__('You do not have permission to go there.'), 'default', array('class' => 'alert alert-danger'));
+			return $this->redirect($this->referer());
 		}
 	}
 
@@ -124,6 +134,7 @@ class UsersController extends AppController {
 			}
 		} 
 		else {
+			$this->checkUser($id);
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
@@ -156,16 +167,17 @@ class UsersController extends AppController {
 					} 
 				}
 				else {
-					$this->Session->setFlash(__('The new password and the confirmation fields must match in order to update your password'), 'default', array('class' => 'alert alert-danger'));
+					$this->Session->setFlash(__('The new password and the password confirmation fields must match in order to update your password'), 'default', array('class' => 'alert alert-danger'));
 				}
 			}
 			else {
-				$this->Session->setFlash(__('You have entered an invalid password. Please try again'), 'default', array('class' => 'alert alert-danger'));
+				$this->Session->setFlash(__('You have entered an invalid current password. Please try again'), 'default', array('class' => 'alert alert-danger'));
 			}
 			
 			
 		}
 		else {
+			$this->checkUser($id);
 			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
@@ -176,13 +188,17 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			$this->User->id = $this->Session->read('Auth.User.id');
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('Your shipping information has been updated.'), 'default', array('class' => 'alert alert-info'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('Your shipping information could not be updated. Please check for errors below and try again.'), 'default', array('class' => 'alert alert-danger'));
 			}
+		}
+		else {
+			$this->checkUser($id);
+			$options = array('conditions' => array('User.'.$this->User->primaryKey => $this->Session->read('Auth.User.id')));
+			$this->request->data = $this->User->find('first', $options);
 		}
 	}
 

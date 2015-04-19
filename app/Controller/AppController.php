@@ -35,6 +35,7 @@ class AppController extends Controller {
 	 public $components = array(
         'Session',
         'DebugKit.Toolbar',
+        'Cookie',
         'Auth' => array(
             'loginRedirect' => array(
                 'controller' => 'posts',

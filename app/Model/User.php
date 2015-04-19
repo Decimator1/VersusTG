@@ -103,14 +103,6 @@ class User extends AppModel {
             'required' => false
         ),
 
-        'role' => array(
-           'valid' => array(
-               'rule' => array('inList', array('admin', 'employee', 'customer')),
-               'message' => 'Please enter a valid role',
-               'allowEmpty' => false
-           )
-        ),
-
         'email_update' => array(
             'required' => array(
                 'rule' => array('email', true),    
