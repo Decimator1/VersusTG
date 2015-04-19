@@ -188,6 +188,7 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+			debug($this->request->data);
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('Your shipping information has been updated.'), 'default', array('class' => 'alert alert-info'));
 				return $this->redirect(array('action' => 'index'));
@@ -197,7 +198,7 @@ class UsersController extends AppController {
 		}
 		else {
 			$this->checkUser($id);
-			$options = array('conditions' => array('User.'.$this->User->primaryKey => $this->Session->read('Auth.User.id')));
+			$options = array('conditions' => array('User.'.$this->User->primaryKey => $id));
 			$this->request->data = $this->User->find('first', $options);
 		}
 	}

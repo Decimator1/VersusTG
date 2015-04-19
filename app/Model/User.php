@@ -23,7 +23,6 @@ class User extends AppModel {
 			),
 			'between' => array(
 				'rule' => array('between', 5, 15),
-				'required' => true,
 				'message' => 'Usernames must be between 5 to 15 characters'
 			),
 			 'unique' => array(

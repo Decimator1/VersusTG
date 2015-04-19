@@ -1,23 +1,42 @@
-<div class="users form">
-<?php echo $this->Form->create('User'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit Account Information'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('fname');
-		echo $this->Form->input('lname');
-		echo $this->Form->input('address');
-		echo $this->Form->input('phone');
-		echo $this->Form->input('group_id');
-	?>
-	</fieldset>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h1 class="panel-title"><?php echo __('Edit Account Information'); ?></h1>
+	</div>
+	<div class="panel-body">
+		<?php echo $this->Form->create('User'); ?>
+			<?php echo $this->Form->input('id'); ?>
+			<div class="form-group">
+				<label for="data[User][fname]">First Name</label>
+				<?php echo $this->Form->input('fname', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+			<div class="form-group">
+				<label for="data[User][lname]">Last Name</label>
+				<?php echo $this->Form->input('lname', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+			<div class="form-group">
+				<label for="data[User][email]">E-Mail</label>
+				<?php echo $this->Form->input('eamil', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+			<div class="form-group">
+				<label for="data[User][address]">address</label>
+				<?php echo $this->Form->input('address', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+			<div class="form-group">
+				<label for="data[User][phone]">Phone Number</label>
+				<?php echo $this->Form->input('phone', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+			<div class="form-group">
+				<label for="data[User][city]">City</label>
+				<?php echo $this->Form->input('city', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+			<div class="form-group">
+				<label for="data[User][state]">State</label>
+				<?php echo $this->Form->input('state', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+			<div class="form-group">
+				<label for="data[User][zip]">Zip Code</label>
+				<?php echo $this->Form->input('zip', array('class' => 'form-control', 'label' => false)); ?>
+			</div>
+	</div>
 <?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?></li>
-	</ul>
 </div>
