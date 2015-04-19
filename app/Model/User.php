@@ -79,7 +79,7 @@ class User extends AppModel {
             )
         ),
 
-        'state' => array(
+       'state' => array(
            'between' => array(
                'rule' => array('maxLength', 2),
                'message' => 'Only state abbreviations of two characters are allowed',
