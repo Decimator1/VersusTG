@@ -5,9 +5,9 @@
 	<div class="panel-body">
 		<div class="col-md-4">
 			<ul>
-				<li><?php echo $this->Html->link('Edit Email', array('action' => 'emailedit'.$user['User']['id']));?></li>
-				<li><?php echo $this->Html->link('Edit Password', array('action' => 'passwordedit'.$user['User']['id']));?></li>
-				<li><?php echo $this->Html->link('Edit Shipping Info', array('action' => 'shippingedit'.$user['User']['id']));?></li>
+				<li><?php echo $this->Html->link('Edit Email', array('action' => 'emailedit',$user['User']['id']));?></li>
+				<li><?php echo $this->Html->link('Edit Password', array('action' => 'passwordedit',$user['User']['id']));?></li>
+				<li><?php echo $this->Html->link('Edit Shipping Info', array('action' => 'shippingedit',$user['User']['id']));?></li>
 			</ul>
 		</div>
 		<div class="col-md-4">
