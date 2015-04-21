@@ -125,7 +125,7 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			$this->User->id = $this->Session->read('Auth.User.id');
+			$this->User->id = $id;
 			if ($this->User->saveField('email', $this->request->data['User']['email_update'], true)) {
 				$this->Session->setFlash(__('Your email has been updated'), 'default', array('class' => 'alert alert-info'));
 				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
@@ -145,7 +145,7 @@ class UsersController extends AppController {
 			throw new NotFoundException(__('Invalid user'));
 		}	
 		if ($this->request->is(array('post', 'put'))) {
-			$this->User->id = $this->Session->read('Auth.User.id');
+			$this->User->id = $id;
 			$user = $this->User->findById($this->User->id);
 
 			$passwordHasher = new BlowfishPasswordHasher();
@@ -159,7 +159,7 @@ class UsersController extends AppController {
 				if ($confirmPassword == $newPassword) {
 					$newPassword = $this->request->data['User']['password_update'];
 					if ($this->User->saveField('password', $newPassword, true)) {
-						$this->Session->setFlash(__('Your password has been updated'), 'default', array('class' => 'alert alert-info'));
+						$this->Session->setFlash(__('Your password has been successfully updated'), 'default', array('class' => 'alert alert-info'));
 						return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 					} 
 					else {
@@ -191,7 +191,7 @@ class UsersController extends AppController {
 			$this->User->id = $id;
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('Your shipping information has been updated.'), 'default', array('class' => 'alert alert-info'));
-				return $this->redirect(array('action' => 'index'));
+				return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('Your shipping information could not be updated. Please check for errors below and try again.'), 'default', array('class' => 'alert alert-danger'));
 			}
@@ -231,20 +231,31 @@ class UsersController extends AppController {
 
 	public function sendpassword() {
 		if ($this->request->is(array('post', 'put'))) {
-			$accountUserName = $this->request->data['User']['username'];
-			if ($this->User->findByEmail($username))
+			$username = $this->request->data['User']['username'];
+			if ($this->User->findByUsername($username))
 			{
-				$user = $this->User->findByEmail($username);
+
+				$user = $this->User->findByUsername($username);
 				$username = $user['User']['username'];
-				$message = 'Hello ' . $username . ',' . "\r\n" . "\r\n" . 'Your request to reset your password has been processed. Please click the link to reset your password: ';
+				$accountEmail = $user['User']['email'];
+				$link = Router::url(array('controller'=>'users', 'action'=>'securitycode'), true);
+				$this->User->id = $user['User']['id'];
+				$pass_reset = String::uuid();
+				$message = 'Hello ' . $username . ',' . "\r\n" . "\r\n" . 'Your request to reset your password has been processed. Your reset security code is: "' . $pass_reset . 
+				'". You will need to use this code to reset your password. ' . 
+				'Please click the link in order to reset your password: ' . $link .
+				'. If you did not request a password reset, please ignore this email.';
 
 				$Email = new CakeEmail('gmail');
 				$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
     			->to($accountEmail)
-    			->subject('Your VSTG Account Username');
+    			->subject('Your VSTG Password Reset Request');
 				if ($Email->send($message))
 				{
-					$this->Session->setFlash(__('An email containing a link to reset your password was sent to your email address'), 'default', array('class' => 'alert alert-info'));
+					$this->Session->setFlash(__('An email containing information to reset your password was sent to your email address'), 'default', array('class' => 'alert alert-info'));
+					if (!($this->User->saveField('pass_reset', $pass_reset, true))) {
+						throw new CakeException(__('Could not save security code'));
+					}
 					$this->redirect(array('controller' => 'posts', 'action' => 'index'));
 				} 
 			}
@@ -252,6 +263,53 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('This username has no account associated with it'), 'default', array('class' => 'alert alert-danger'));
 			}
 		}
+	}
+
+	public function securitycode() {
+		if ($this->request->is(array('post', 'put'))) {
+			$securitycode = $this->request->data['User']['pass_reset'];
+			if ($this->User->findByPass_reset($securitycode)) {
+				$user = $this->User->findByPass_reset($securitycode);
+				$id = $user['User']['id'];
+				$this->redirect(array('controller' => 'users', 'action' => 'resetpassword', $id));
+			}
+			else {
+				$this->Session->setFlash(__('You have entered an invalid security code. Please check your password reset email for your security code.'), 'default', array('class' => 'alert alert-danger'));
+			}
+		}
+	}
+
+	public function resetpassword($id = null) {
+		$this->User->id = $id;
+		if (!$this->User->exists()) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			$this->User->id = $id;
+			$user = $this->User->findById($this->User->id);
+			$newPassword = $this->request->data['User']['password_update'];
+			$confirmPassword = $this->request->data['User']['confirm_password'];
+			
+			if ($confirmPassword == $newPassword) {
+				$newPassword = $this->request->data['User']['password_update'];
+				if ($this->User->saveField('password', $newPassword, true)) {
+					$this->User->saveField('pass_reset', ' ', false);
+					$this->Session->setFlash(__('Your password has been updated'), 'default', array('class' => 'alert alert-info'));
+					return $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+				} 
+				else {
+					$this->Session->setFlash(__('Your password could not been updated. Please, try again.'), 'default', array('class' => 'alert alert-danger'));
+				} 
+				}
+			else {
+				$this->Session->setFlash(__('The new password and the password confirmation fields must match in order to update your password'), 'default', array('class' => 'alert alert-danger'));
+			}
+		}
+		else {
+			$options = array('conditions' => array('User.' . $this->User->primaryKey => $id));
+			$this->request->data = $this->User->find('first', $options);
+		}
+
 	}
 /**
  * delete method

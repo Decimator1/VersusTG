@@ -2,7 +2,6 @@
 	<?php echo $this->Form->create('User'); ?>
 		<legend><?php echo __('Change Shipping Information'); ?></legend>
 			<?php
-				echo $this->Form->input('id');
 				echo $this->Form->input('address', array('label' => 'Address','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('city', array('label' => 'City','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('state', array('label' => 'State','class'=>'form-control','div' => 'form-group'));
