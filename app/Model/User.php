@@ -134,6 +134,13 @@ class User extends AppModel {
                 'message' => 'Your current password is required to change to a new one'
             )
         ),
+
+        'pass_reset' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'You must enter a security code to proceed'
+            )
+        ),
 	);
 
     public function beforeSave($options = array()) {
