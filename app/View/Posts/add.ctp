@@ -1,18 +1,15 @@
-<div class="posts form">
-<?php echo $this->Form->create('Post'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Post'); ?></legend>
-	<?php
-		echo $this->Form->input('title');
-		echo $this->Form->input('body');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-
-		<li><?php echo $this->Html->link(__('List Posts'), array('action' => 'index')); ?></li>
-	</ul>
+<?php echo $this->Html->link('Back', array('action' => 'index'), array('class' => 'btn btn-danger')); ?>
+<br/><br/>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h1 class="panel-title">Add Post</h1>
+    </div>
+    <div class="panel-body">
+       <?php echo $this->Form->create('Post'); ?>
+       <?php
+            echo $this->Form->input('title', array('label' => 'Title','class'=>'form-control','div' => 'form-group'));
+            echo $this->Form->input('body', array('label' => 'Body','class'=>'form-control','div' => 'form-group'));
+        ?>
+       <?php echo $this->Form->end(__('Submit')); ?>
+    </div>
 </div>
