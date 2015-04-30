@@ -35,6 +35,7 @@ class AppController extends Controller {
 	 public $components = array(
         'Session',
         'DebugKit.Toolbar',
+        'Cookie',
         'Auth' => array(
             'loginRedirect' => array(
                 'controller' => 'posts',
@@ -53,7 +54,7 @@ class AppController extends Controller {
     );
 
     public function beforeFilter() {
-        $this->Auth->allow('index', 'view', 'sendusernameemail');
+        $this->Auth->allow('index', 'view', 'sendusername', 'sendpassword', 'register', 'securitycode', 'resetpassword');
     }
 
     public function isAuthorized($user = null) {

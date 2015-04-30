@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <div class="col-md-6 col-md-offset-3">
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/w2ROvlSkNvM" frameborder="0" allowfullscreen></iframe>
 </div>
@@ -122,8 +123,93 @@
 
 
 
+=======
+<div class="posts index">
+<div class="ad">
+    <div class="row vertical-center-row">
+        <div class="col-lg-12">
+            <div class="row ">
+                <h2><div align="center">Welcome to Versus Tornament Gaming!</div></h2>
+                <div align="center"><iframe width="600" height="338" src="https://www.youtube.com/embed/w2ROvlSkNvM" frameborder="0" allowfullscreen></iframe></div>
+            </div>
+        </div>
+    </div>
+</div>	
+>>>>>>> Stashed changes
 
+<div class="col-sm-offset-3 col-sm-4">~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~ </div> 
+<h1></h1>
+    
+<div class="row">
+    <div class="col-sm-3" style="background-color: #cda001;">
+        <div align="center"> 
+            <iframe  src="https://www.eventbrite.com/calendar-widget?eid=16162451327" frameborder="0" height="652" width="195" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true">
+            </iframe>
+        </div>
+    </div>
 
+<<<<<<< Updated upstream
+=======
+    
+    <div class="col-sm-8" style="background-color: #001255;">
+         <iframe width="600" height="338" src="https://www.youtube.com/embed/w2ROvlSkNvM" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+</div>
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //////////////////////////////////////
+        <div align="center">
+            <div align="center" style="width: 100%; overflow-y: hidden;" class="wcustomhtml">.
+                <div style="width:195px; text-align:center;" >
+                    <iframe  src="https://www.eventbrite.com/calendar-widget?eid=16162451327" frameborder="0" height="652" width="195" marginheight="0" marginwidth="0" scrolling="no" allowtransparency="true">
+                </div>
+            </div>
+        </div>        
+    ////////////////////////////////
+    
+    <div class="col-sm-8" style="background-color: #001255;">.col-sm-8
+        <h1><?php echo ('Event Calendar'); ?></h1>
+    </div>
+    <h2><div align="center">Event Calendar</div></h2>	
+        
+        
+        
+        ////////////////////////////////////////////////////
+	<h2><?php echo __('Latest Blog Posts '); ?></h2>
+	<div class="row">
+		<?php foreach ($posts as $post): ?>
+			<div class="col-xs-12">
+				<h3><?php echo $this->Html->link(__($post['Post']['title']), array('action' => 'view', $post['Post']['id'])); ?></h3>
+				<hr/>
+				<td><?php echo h($post['Post']['body']); ?>&nbsp;</td>
+>>>>>>> Stashed changes
 
 
 
@@ -143,13 +229,29 @@
 
 <div class="posts index">
 
-
-	<h2><?php echo __('Latest Blog Posts'); ?></h2>
-	<div class="row">
+    <div class="row">
+        <h2 class="pull-left"><?php echo __('Latest Blog Posts'); ?></h2>
+        <?php 
+            if($this->Session->read('Auth.User.group_id') == 1) {
+                echo $this->Html->link('New Post', array('action' => 'add'), array('class' => 'btn btn-primary pull-right')); 
+            } 
+        ?>
+    </div>
+	
+    <div class="row">
 		<?php foreach ($posts as $post): ?>
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h1 class="panel-title"><?php echo $this->Html->link(__($post['Post']['title']), array('action' => 'view', $post['Post']['id']));?></h1>
+				<h1 class="panel-title"><?php echo $this->Html->link(__($post['Post']['title']), array('action' => 'view', $post['Post']['id']));?>
+                    <?php 
+                        if($this->Session->read('Auth.User.group_id') == 1) {
+                            echo $this->Form->postLink(__(''), array('action' => 'delete', $post['Post']['id']), 
+                                                       array('class' => 'glyphicon glyphicon-remove pull-right','confirm' => __('Are you sure you want to delete # %s?', $post['Post']['id'])));
+                            echo $this->Html->link(__(''), array('action' => 'edit', $post['Post']['id']), 
+                                                       array('class' => 'glyphicon glyphicon-edit pull-right'));
+                        }
+                    ?>
+                </h1>
 			</div>
 			<div class="panel-body">
 				<?php echo h($post['Post']['body']); ?>
@@ -168,4 +270,6 @@
 			?>
 		</ul>
 	</div>
+	///////////////////////////////////////////////////
+	<h2><?php echo ('Post Blog Post'); ?></h2>
 </div>

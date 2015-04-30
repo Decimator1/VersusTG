@@ -1,44 +1,43 @@
-<div class="users view">
-<h2><?php echo __('User'); ?></h2>
-	<dl>
-		<dt><?php echo __('Username'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['id']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('First Name'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['fname']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Last Name'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['lname']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Address'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['address']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Phone Number'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['phone']); ?>
-			&nbsp;
-		</dd>
-		<dt><?php echo __('Group Id'); ?></dt>
-		<dd>
-			<?php echo h($user['User']['group_id']); ?>
-			&nbsp;
-		</dd>
-	</dl>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h1 class="panel-title col-md-offset-6"><?php echo "User: ".h($user['User']['username']); ?></h1>
+	</div>
+	<div class="panel-body">
+		<div class="col-md-4 well btn-group-vertical">
+				<?php echo $this->Html->link('Edit Email', array('action' => 'emailedit',$user['User']['id']), array('class' => 'btn btn-primary'));?>
+				<?php echo $this->Html->link('Edit Password', array('action' => 'passwordedit',$user['User']['id']), array('class' => 'btn btn-primary'));?>
+				<?php echo $this->Html->link('Edit Shipping Info', array('action' => 'shippingedit',$user['User']['id']), array('class' => 'btn btn-primary'));?>
+		</div>
+		<div class="col-md-6">
+			<div class="col-md-offset-4">
+				<?php
+				    echo $this->Gravatar->image($user['User']['email'], array('size' => 80));
+				?>
+			</div>
+			<br/><br/>
+			<table class="table table-bordered table-hover">
+				<tbody>
+					<tr>
+						<td><b><?php echo __(' Name'); ?></b></td>
+						<td><?php echo h($user['User']['fname']).' '.h($user['User']['lname']); ?> </td>
+					</tr>
+					<tr>
+						<td><b><?php echo __('Address'); ?></b></td>
+						<td>
+							<?php echo h($user['User']['address']).' '.h($user['User']['city']).', '.h($user['User']['state']).' '.h($user['User']['zip']); ?>
+							&nbsp;
+						</td>
+					<tr>
+					<tr>
+						<td><b><?php echo __('Phone Number'); ?></b></td>
+						<td>
+							<?php echo h($user['User']['phone']); ?>
+							&nbsp;
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('Edit User'), array('action' => 'edit', $user['User']['id'])); ?> </li>
-		<li><?php echo $this->Form->postLink(__('Delete User'), array('action' => 'delete', $user['User']['id']), array(), __('Are you sure you want to delete # %s?', $user['User']['id'])); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?> </li>
-	</ul>
-</div>
+

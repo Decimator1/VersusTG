@@ -23,7 +23,6 @@ class User extends AppModel {
 			),
 			'between' => array(
 				'rule' => array('between', 5, 15),
-				'required' => true,
 				'message' => 'Usernames must be between 5 to 15 characters'
 			),
 			 'unique' => array(
@@ -37,6 +36,17 @@ class User extends AppModel {
         ),
 
         'password' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'A password is required'
+            ),
+            'min_length' => array(
+                'rule' => array('minLength', '6'),  
+                'message' => 'Password must have a mimimum of 6 characters'
+            )
+        ),
+
+        'confirm_password' => array(
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'A password is required'
@@ -69,7 +79,7 @@ class User extends AppModel {
             )
         ),
 
-        'state' => array(
+       'state' => array(
            'between' => array(
                'rule' => array('maxLength', 2),
                'message' => 'Only state abbreviations of two characters are allowed',
@@ -90,14 +100,6 @@ class User extends AppModel {
             'message' => 'Please enter a valid phone number',
             'allowEmpty' => true,
             'required' => false
-        ),
-
-        'role' => array(
-           'valid' => array(
-               'rule' => array('inList', array('admin', 'employee', 'customer')),
-               'message' => 'Please enter a valid role',
-               'allowEmpty' => false
-           )
         ),
 
         'email_update' => array(
@@ -130,10 +132,13 @@ class User extends AppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'Your current password is required to change to a new one'
-            ),
-            'match' => array(
-                'rule' => array('matchCurrentPass'),
-                'message' => 'This password does not match the current one'
+            )
+        ),
+
+        'pass_reset' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'You must enter a security code to proceed'
             )
         ),
 	);
@@ -146,11 +151,6 @@ class User extends AppModel {
             );
         }
         return true;
-    }
-
-    public function matchCurrentPass($check)
-    {
-        return AuthComponent::password($this->data[$this->alias]['old_password']) == $this->User->field('password');
     }
     
 	public function alphaNumericDashUnderscore($check) {

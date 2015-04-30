@@ -39,54 +39,62 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 	?>
 </head>
 <body>
-	<nav class="navbar navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <?php echo $this->Html->link('VS Tournament Gaming', array('controller' => 'posts','action' => 'index'), array('class' => 'navbar-brand')); ?></li>
+	<nav class="navbar navbar-default row">
+      <div class="container-fluid">
+        <div class="navbar-header col-md-4">
+            <button type="button" class="navbar-toggle collapsed col-md-4 col-md-offset-1" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <?php echo $this->Html->image('vstglogo.png', array("alt" => "vstg", "class" => "img-responsive", 'url' => array('controller' => 'posts','action' => 'index'))); ?></li>
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="www.vstg.net/about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li><a href="http://www.vstg.net/about">About</a></li>
-            <li><a href="https://vstg.forums.net/">Forums</a><li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Store Menu <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><?php echo $this->Html->link('Cards', array('controller' => 'cards', 'action' => 'index'));?></li>
-                <li><a href="#">Accessories</a></li>
+        <div class="col-md-8">
+          <div id="navbar" class="navbar-collapse collapse row">
+            <ul class="nav navbar-nav col-md-8">
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="http://www.vstg.net/about">About</a></li>
+              <li><a href="https://vstg.forums.net/">Forums</a><li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Store Menu <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><?php echo $this->Html->link('Cards', array('controller' => 'cards', 'action' => 'index'));?></li>
+                  <li><a href="#">Accessories</a></li>
 
-              </ul>
-            </li>
-            <li><?php echo $this->Html->link(__('Tournaments'), array('controller' => 'tournaments' ,'action' => 'index')); ?></li>
-            <li><a href="https://vstg.forums.net/">Forums</a><li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <?php if(!$this->Session->check('Auth.User')) : ?>
-            <li><?php echo $this->Html->link(__('Login'), array('controller' => 'users' ,'action' => 'login')); ?></li>
-            <li><?php echo $this->Html->link(__('Register'), array('controller' => 'users','action' => 'register')); ?></li>
-          <?php else: ?>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Account <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><?php echo $this->Html->link(__('Change Email'), array('controller' => 'users' ,'action' => 'emailedit', $this->Session->read('Auth.User.id'))); ?></li>
-                <li><?php echo $this->Html->link(__('Change Password'), array('controller' => 'users' ,'action' => 'passwordedit', $this->Session->read('Auth.User.id'))); ?></li>
-                <li><?php echo $this->Html->link(__('Change Shipping Information'), array('controller' => 'users' ,'action' => 'shippingedit', $this->Session->read('Auth.User.id'))); ?></li>
-              </ul>
-            </li>
-            <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'users' ,'action' => 'logout')); ?></li>
-          <?php endif; ?>
-            <li class="active"><a href="./">Shopping Cart<span class="sr-only">(current)</span></a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+                </ul>
+              </li>
+              <li><?php echo $this->Html->link(__('Tournaments'), array('controller' => 'tournaments' ,'action' => 'index')); ?></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right col-md-4">
+              <?php if(!$this->Session->check('Auth.User')) : ?>
+              <li><?php echo $this->Html->link(__('Login'), array('controller' => 'users' ,'action' => 'login')); ?></li>
+              <li><?php echo $this->Html->link(__('Register'), array('controller' => 'users','action' => 'register')); ?></li>
+            <?php else: ?>
+              <li>  <?php echo $this->Html->link(__('My Account'), array('controller' => 'users','action' => 'view',$this->Session->read('Auth.User.id'))); ?></li>
+                
+              <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'users' ,'action' => 'logout')); ?></li>
+            <?php endif; ?>
+              <li class="active"><a href="./">
+                <button type="button" class="btn btn-default" aria-label="Shopping Cart">
+                  <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                </button>
+              </a></li>
+            </ul>
+          </div>
+      
+          <div class="row container-fluid">
+            <div class="input-group navbar-left col-md-7">
+              <input type="text" class="form-control" placeholder="Search for Card">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>  
+      </div><!--/.nav-collapse -->
+  </nav>
+
     <div class="sidebar">
     </div>
     <div class='container'>
