@@ -83,14 +83,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
             </ul>
           </div>
       
-          <div class="row container-fluid">
-            <div class="input-group navbar-left col-md-7">
-              <input type="text" class="form-control" placeholder="Search for Card">
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-default">Go!</button>
-              </span>
-            </div>
-          </div>
+          
         </div>  
       </div><!--/.nav-collapse -->
   </nav>

@@ -1,3 +1,4 @@
+<?php debug($card); die; ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h1 class="panel-title"><?php echo __($card['Card']['name']); ?></h1>
@@ -38,13 +39,14 @@
 						<?php echo h($card['Card']['rarity']); ?>
 						&nbsp;
 					</dd>
+                    <hr/>
+                    <dt style="font-size: 200%"><?php echo __('Price'); ?></dt>
+					<dd style="font-size: 200%">
+						<?php echo h("$3.14"); ?>
+						&nbsp;
+					</dd>
 				</dl>				
 			</div>
 		</div>
 	</div>
-</div>
-
-
-<div class="cards view">
-	
 </div>
