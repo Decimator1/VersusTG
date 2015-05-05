@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 <div class="col-md-6 col-md-offset-3">
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/w2ROvlSkNvM" frameborder="0" allowfullscreen></iframe>
 </div>
@@ -111,19 +110,6 @@
     </div>
 	
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-=======
 <div class="posts index">
 <div class="ad">
     <div class="row vertical-center-row">
@@ -135,7 +121,6 @@
         </div>
     </div>
 </div>	
->>>>>>> Stashed changes
 
 <div class="col-sm-offset-3 col-sm-4">~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~*~~ </div> 
 <h1></h1>
@@ -157,33 +142,6 @@
 
 </div>
    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     //////////////////////////////////////
         <div align="center">
             <div align="center" style="width: 100%; overflow-y: hidden;" class="wcustomhtml">.
@@ -209,24 +167,6 @@
 				<h3><?php echo $this->Html->link(__($post['Post']['title']), array('action' => 'view', $post['Post']['id'])); ?></h3>
 				<hr/>
 				<td><?php echo h($post['Post']['body']); ?>&nbsp;</td>
->>>>>>> Stashed changes
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="posts index">
 
     <div class="row">
