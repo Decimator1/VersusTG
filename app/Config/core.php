@@ -222,12 +222,12 @@ Configure::write('Routing.prefixes', array('admin'));
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'DYh113b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
+	Configure::write('Security.salt', 'DYh111b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '768593031257453542496749683645');
+	Configure::write('Security.cipherSeed', '768593031117453542496749683645');
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).
@@ -267,7 +267,7 @@ Configure::write('Routing.prefixes', array('admin'));
  * Uncomment this line and correct your server timezone to fix
  * any date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+	date_default_timezone_set('America/Los_Angeles');
 
 /**
  * `Config.timezone` is available in which you can set users' timezone string.
@@ -275,7 +275,7 @@ Configure::write('Routing.prefixes', array('admin'));
  * then the value of `Config.timezone` will be used. This feature allows you to set users' timezone just
  * once instead of passing it each time in function calls.
  */
-	//Configure::write('Config.timezone', 'Europe/Paris');
+//	Configure::write('Config.timezone', 'America/Los_Angeles');
 
 /**
  * Cache Engine Configuration
