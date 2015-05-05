@@ -1,4 +1,4 @@
-<?php //debug($page);die; ?>
+<?php ?>
 <div class="row">
 	<button class="btn btn-primary">Search</button>
 </div>

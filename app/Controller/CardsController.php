@@ -16,6 +16,7 @@ class CardsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
+
 /**
  * index method
  *
@@ -38,9 +39,36 @@ class CardsController extends AppController {
 		}
 		$this->Card->setDataSource('cards');
 		$params = array('limit' => 20, 'page' => $page);
-		$results = $this->Card->find('all', $params);
+		$results = $this->Card->find('all', array('condtions' => $params));
 		$this->set('cards', $results);
 		$this->set('page', $page);
+		
+	}
+    
+    public function search($page = null) {
+    	if($this->request->is(array('post', 'put'))) {
+			$stuffToSortBy = array(
+				'name',
+				'multiverseid',
+				'manaCost',
+				'rarity'
+			);
+
+			foreach($stuffToSortBy as $field) {
+				$this->Card->virtualFields[$field] = true;
+			}
+			$this->set('cards', $this->paginate('Card'));
+			foreach ($stuffToSortBy as $field) {
+				unset($this->Card->virtualFields[$field]);
+			}
+			$this->Card->setDataSource('cards');
+			$results = $this->Card->find('all', array('conditions' => array('name' => new MongoRegex("/".$this->request->data['Card']['name']."/i"))));
+			$this->set('cards', $results);
+			$this->set('page', $page);
+		}
+		else {
+			$this->redirect(array('action' => 'index'));
+		}
 	}
 
 	public function index() {
@@ -99,8 +127,11 @@ class CardsController extends AppController {
 				$this->Session->setFlash(__('The card could not be saved. Please, try again.'));
 			}
 		} else {
-			$options = array('conditions' => array('Card.' . $this->Card->primaryKey => $id));
-			$this->request->data = $this->Card->find('first', $options);
+            if($this->Session->read('Auth.User.group_id') != 1) {
+                $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+            }
+            $options = array('conditions' => array('_id' => $id));
+            $this->request->data = $this->Card->find('first', $options);
 		}
 	}
 
