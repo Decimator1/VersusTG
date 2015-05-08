@@ -8,21 +8,21 @@ if($this->Session->check('Auth.User.id')){
 <div class="col-md-8 col-md-offset-2">
 	<?php echo $this->Form->create('User'); ?>
 		<legend><?php echo __('Register Account'); ?></legend>
-			<p>Fields marked with * are required</p>
+			<p>All fields are required to create an account.</p>
 			<br>
 			<h4>Account Information</h4>
 			<?php
-				echo $this->Form->input('username', array('label' => 'Username*','class'=>'form-control','div' => 'form-group'));
-				echo $this->Form->input('email', array('label' => 'E-Mail*','class'=>'form-control','div' => 'form-group'));
-				echo $this->Form->input('password', array('type'=>'password', 'label' => 'Password*','class'=>'form-control','div' => 'form-group'));
-				echo $this->Form->input('fname', array('label' => 'First Name*','class'=>'form-control','div' => 'form-group'));
+				echo $this->Form->input('username', array('label' => 'Username','class'=>'form-control','div' => 'form-group'));
+				echo $this->Form->input('email', array('label' => 'E-Mail','class'=>'form-control','div' => 'form-group'));
+				echo $this->Form->input('password', array('type'=>'password', 'label' => 'Password','class'=>'form-control','div' => 'form-group'));
+				echo $this->Form->input('fname', array('label' => 'First Name','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('lname', array('label' => 'Last Name','class'=>'form-control','div' => 'form-group'));
 				//Check if admin before displaying this
 				//echo $this->Form->input('group_id', array('label' => 'Assign Group'));
 			?>
 			<br>
 			<h4>Shipping Information</h4>
-			<p>This information will be used when ordering items from the online store. You may enter the information now or do so later
+			<p>This information will be used when ordering items from our online store. You may enter the information now or do so later
 				from your User Settings menu</p>
 			<?php
 				echo $this->Form->input('address', array('label' => 'Address','class'=>'form-control','div' => 'form-group'));

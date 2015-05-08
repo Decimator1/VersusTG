@@ -11,6 +11,7 @@ class Tournament extends AppModel {
  *
  * @var string
  */
+	public $useTable = 'tournaments';
 	public $primaryKey = 'tournament_id';
 
 }

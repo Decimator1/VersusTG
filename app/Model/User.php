@@ -79,12 +79,19 @@ class User extends AppModel {
             )
         ),
 
+        'lname' => array(
+           'required' => array(
+               'rule' => array('notEmpty'),
+               'message' => 'A last name is required'
+            )
+        ),
+
        'state' => array(
            'between' => array(
                'rule' => array('maxLength', 2),
                'message' => 'Only state abbreviations of two characters are allowed',
                'allowEmpty' => true,
-               'required' => false
+               'required' => true
             )
         ),
 
@@ -92,14 +99,14 @@ class User extends AppModel {
             'rule' => array('postal', null, 'us'),
             'message' => 'Please enter a valid ZIP code',
             'allowEmpty' => true,
-            'required' => false
+            'required' => true
         ),
 
         'phone' => array(
             'rule' => array('phone', null, 'us'),
             'message' => 'Please enter a valid phone number',
             'allowEmpty' => true,
-            'required' => false
+            'required' => true
         ),
 
         'email_update' => array(
@@ -132,6 +139,27 @@ class User extends AppModel {
             'required' => array(
                 'rule' => array('notEmpty'),
                 'message' => 'Your current password is required to change to a new one'
+            )
+        ),
+
+        'address' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'You must enter a shipping address'
+            )
+        ),
+
+        'city' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'You must enter a city'
+            )
+        ),
+
+        'state' => array(
+            'required' => array(
+                'rule' => array('notEmpty'),
+                'message' => 'You must enter a state'
             )
         ),
 
