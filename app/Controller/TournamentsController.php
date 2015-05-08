@@ -1,5 +1,6 @@
 <?php
 App::uses('AppController', 'Controller');
+App::uses('CakeEmail', 'Network/Email');
 /**
  * Tournaments Controller
  *
@@ -15,6 +16,10 @@ class TournamentsController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
+	public $uses = array(
+		'User',
+		'Tournament'
+	);
 /**
  * index method
  *
@@ -57,8 +62,36 @@ class TournamentsController extends AppController {
 		}
 	}
 
-	public function register() {
+	public function signup() {
+		$tournaments = $this->Tournament->find('list', array(
+        'fields' => array('Tournament.tournament_name')
+    	));
 
+    	$this->set('tournaments', $tournaments);
+
+    	if ($this->request->is(array('post', 'put'))) {
+			$id = $this->Auth->user('id');
+			$user = $this->User->findById($id);
+			$username = $user['User']['username'];
+			$firstname = $user['User']['fname'];
+			$lastname = $user['User']['lname'];
+			$email = $user['User']['email'];
+			$phone = $user['User']['phone'];
+
+			$tournament_name = $this->request->data('tournament_name');
+			$message = 'User ' . $username . ' has signed up for ' . $tournament_name . ' on ' . $tournament_date . "\r\n" . "\r\n" . 'User Email: ' . $email . "\r\n" . 'User Name: ' . $firstname . ' ' . $lastname . "\r\n" . 'User Phone Number: ' . $phone . '';
+
+			$Email = new CakeEmail('gmail');
+			$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
+    		->to('dallostaa@gmail.com')
+    		->subject('Tournament Registration');
+			if ($Email->send($message))
+			{
+				$this->Session->setFlash(__('You have successfully registered for the tournament'), 'default', array('class' => 'alert alert-info'));
+			} 
+		} else {
+			
+		}
 	}
 
 	public function beforeFilter() {

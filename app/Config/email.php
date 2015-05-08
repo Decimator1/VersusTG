@@ -54,6 +54,7 @@ class EmailConfig {
 	    'password' => 'IamVSTG12',
 	    'transport' => 'Smtp'
 	);
+	
 	public $smtp = array(
 		'transport' => 'Smtp',
 		'from' => array('site@localhost' => 'My Site'),
