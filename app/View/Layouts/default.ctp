@@ -87,9 +87,6 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
         </div>  
       </div><!--/.nav-collapse -->
   </nav>
-
-    <div class="sidebar">
-    </div>
     <div class='container'>
 			<?php echo $this->Session->flash(); ?>
 			<?php echo $this->fetch('content'); ?>
