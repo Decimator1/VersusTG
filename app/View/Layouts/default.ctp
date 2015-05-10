@@ -71,8 +71,8 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
               <li><?php echo $this->Html->link(__('Login'), array('controller' => 'users' ,'action' => 'login')); ?></li>
               <li><?php echo $this->Html->link(__('Register'), array('controller' => 'users','action' => 'register')); ?></li>
             <?php else: ?>
-              <li>  <?php 
-                      $username = $this->Session->read('Auth.user.username');
+              <li>  <?php
+                      $username = $this->Session->read('Auth.User.username');
                       echo $this->Html->link(__('Hi, ' . $username . '!'), array('controller' => 'users','action' => 'view',$this->Session->read('Auth.User.id'))); ?></li>
                 
               <li><?php echo $this->Html->link(__('Logout'), array('controller' => 'users' ,'action' => 'logout')); ?></li>
