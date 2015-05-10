@@ -87,8 +87,20 @@ class CardsController extends AppController {
 		if (!$this->Card->exists($id)) {
 			//throw new NotFoundException(__('Invalid card'));
 		}
+		
 		$options = array('conditions' => array('_id' => $id));
-		$this->set('card', $this->Card->find('first',$options));
+		$card = $this->Card->find('first',$options);
+		$cardName = urlencode($card['Card']['name']);
+		$cardSet = urlencode($card['Card']['sets'][0]);
+		$curl = curl_init("http://magictcgprices.appspot.com/api/cfb/price.json?cardname=".$cardName."&cardset=".$cardSet);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($curl);
+		if(empty($result)) {
+			$curl = curl_init("http://magictcgprices.appspot.com/api/cfb/price.json?cardname=".$cardName);
+			$result = curl_exec($curl);
+		}
+		$this->set('card', $card);
+		$this->set('price', json_decode($result));
 	}
 
 /**
