@@ -1,4 +1,3 @@
-<?php debug($card); die; ?>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h1 class="panel-title"><?php echo __($card['Card']['name']); ?></h1>
@@ -6,7 +5,14 @@
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-2 col-md-offset-1">
-				<?php echo $this->Html->image("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=".$card['Card']['multiverseid']."&type=card"); ?>
+				<?php
+					if(isset($card['Card']['multiverseid'])) {
+						echo $this->Html->image("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=".$card['Card']['multiverseid']."&type=card");
+					}
+					else {
+						echo "No Picture Found";
+					}
+				?>
 			</div>
 			<div class="col-md-7 col-md-offset-2">
 				<dl>
@@ -42,7 +48,7 @@
                     <hr/>
                     <dt style="font-size: 200%"><?php echo __('Price'); ?></dt>
 					<dd style="font-size: 200%">
-						<?php echo h("$3.14"); ?>
+						<?php echo $price[0]; ?>
 						&nbsp;
 					</dd>
 				</dl>				
