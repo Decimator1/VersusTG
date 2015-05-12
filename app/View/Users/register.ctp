@@ -27,7 +27,15 @@ if($this->Session->check('Auth.User.id')){
 			<?php
 				echo $this->Form->input('address', array('label' => 'Address','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('city', array('label' => 'City','class'=>'form-control','div' => 'form-group'));
-				echo $this->Form->input('state', array('label' => 'State','class'=>'form-control','div' => 'form-group'));
+			echo $this->Form->input('state',
+				array(
+					'label' => 'State',
+					'type'=>'select',
+					'options' => $states,
+					'empty'=>'(Choose one)',
+					'class' => 'form-control',
+					'div' => 'form-group'
+				));
 				echo $this->Form->input('zip', array('label' => 'ZIP Code','class'=>'form-control','div' => 'form-group'));
 				echo $this->Form->input('phone', array('label' => 'Phone Number','class'=>'form-control','div' => 'form-group'));
 			?>
