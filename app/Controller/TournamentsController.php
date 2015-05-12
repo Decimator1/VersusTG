@@ -72,13 +72,17 @@ class TournamentsController extends AppController {
 
     	if ($this->request->is(array('post', 'put'))) {
 			$user_id = $this->Auth->user('id');
+			$user = $this->User->findById($user_id);
+			$firstname = $user['User']['fname'];
+			$lastname = $user['User']['lname'];
+			$name =  $firstname . ' ' . $lastname . '';
 			$tournament_id = $this->request->data['Tournament']['tournament_name'];
 
 			if ($this->Tournament->exists($tournament_id)) {
 				
 				$reg_conditions = array(
     				'Registration.tournament_id' => $tournament_id,
-    				'Registration.registered_user' => $user_id
+    				'Registration.registered_user' => $name
 				);
 
 				if (!($this->Registration->hasAny($reg_conditions))) {
@@ -88,10 +92,7 @@ class TournamentsController extends AppController {
 					$max_entries = $regTournament['Tournament']['max_entries'];
 					if ($current_entries < $max_entries) {
 
-						$user = $this->User->findById($user_id);
 						$username = $user['User']['username'];
-						$firstname = $user['User']['fname'];
-						$lastname = $user['User']['lname'];
 						$email = $user['User']['email'];
 						$phone = $user['User']['phone'];
 						$tournament_name = $regTournament['Tournament']['tournament_name'];
@@ -99,22 +100,24 @@ class TournamentsController extends AppController {
 						$registration = array(
 							'Registration' => array (
 								'tournament_id' => $tournament_id,
-								'registered_user' => $user_id
+								'registered_user' => $name
 						));
 
-						$this->Registration->save($registration);
-						
+						if ($this->Registration->save($registration)) {
+							$message = 'User ' . $username . ' has signed up for ' . $tournament_name . ' on ' . $tournament_date . "\r\n" . "\r\n" . 'User Email: ' . $email . "\r\n" . 'User Name: ' . $name . "\r\n" . 'User Phone Number: ' . $phone . '';
 
-						$message = 'User ' . $username . ' has signed up for ' . $tournament_name . ' on ' . $tournament_date . "\r\n" . "\r\n" . 'User Email: ' . $email . "\r\n" . 'User Name: ' . $firstname . ' ' . $lastname . "\r\n" . 'User Phone Number: ' . $phone . '';
-
-						$Email = new CakeEmail('gmail');
-						$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
-			    		->to('dallostaa@gmail.com')
-			    		->subject('Tournament Registration');
-						if ($Email->send($message))
-						{
-							$this->Session->setFlash(__('You have successfully registered for ' . $tournament_name . '.'), 'default', array('class' => 'alert alert-info'));
-						} 
+							$Email = new CakeEmail('gmail');
+							$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
+				    		->to('dallostaa@gmail.com')
+				    		->subject('Tournament Registration');
+							if ($Email->send($message))
+							{
+								$this->Session->setFlash(__('You have successfully registered for ' . $tournament_name . '.'), 'default', array('class' => 'alert alert-info'));
+							} 
+							else {
+								$this->Session->setFlash(__('There was an error in confirming your registration. Please contact VS Tournament Gaming to confirm your registration'), 'default', array('class' => 'alert alert-danger'));
+							}
+						}
 						else {
 							$this->Session->setFlash(__('There was an error in registering for the tournament. Please try again later.'), 'default', array('class' => 'alert alert-danger'));
 						}
@@ -124,7 +127,7 @@ class TournamentsController extends AppController {
 					}
 				}
 				else {
-					$this->Session->setFlash(__('You have already registered for this tournament'), 'default', array('class' => 'alert alert-danger'));
+					$this->Session->setFlash(__('You have already registered for this tournament.'), 'default', array('class' => 'alert alert-danger'));
 				}
 			}
 			else {
