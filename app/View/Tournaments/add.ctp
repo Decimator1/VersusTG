@@ -3,8 +3,10 @@
 	<fieldset>
 		<legend><?php echo __('Add Tournament'); ?></legend>
 	<?php
-		echo $this->Form->input('type');
+		echo $this->Form->input('tournament_name');
 		echo $this->Form->input('tournament_date');
+		echo $this->Form->input('tournament_time');
+		echo $this->Form->input('type');
 		echo $this->Form->input('max_entries');
 	?>
 	</fieldset>

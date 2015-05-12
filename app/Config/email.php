@@ -50,8 +50,8 @@ class EmailConfig {
 	    'host' => 'ssl://smtp.gmail.com',
 	    'port' => 465,
 	    'timeout' => 30,
-	    'username' => 'vstg123445@gmail.com',
-	    'password' => 'IamVSTG12',
+	    'username' => 'vstg1234567@gmail.com',
+	    'password' => 'wafflesberg',
 	    'transport' => 'Smtp'
 	);
 	
