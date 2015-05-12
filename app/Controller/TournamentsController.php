@@ -75,14 +75,14 @@ class TournamentsController extends AppController {
 			$user = $this->User->findById($user_id);
 			$firstname = $user['User']['fname'];
 			$lastname = $user['User']['lname'];
-			$name =  $firstname . ' ' . $lastname . '';
+			$fullname =  $firstname . ' ' . $lastname . '';
 			$tournament_id = $this->request->data['Tournament']['tournament_name'];
 
 			if ($this->Tournament->exists($tournament_id)) {
 				
 				$reg_conditions = array(
     				'Registration.tournament_id' => $tournament_id,
-    				'Registration.registered_user' => $name
+    				'Registration.registered_userid' => $user_id
 				);
 
 				if (!($this->Registration->hasAny($reg_conditions))) {
@@ -90,21 +90,23 @@ class TournamentsController extends AppController {
 					$current_entries = $this->Registration->find('count', array(
 						'conditions' => array('Registration.tournament_id =' => $tournament_id)));
 					$max_entries = $regTournament['Tournament']['max_entries'];
+
 					if ($current_entries < $max_entries) {
 
-						$username = $user['User']['username'];
-						$email = $user['User']['email'];
-						$phone = $user['User']['phone'];
-						$tournament_name = $regTournament['Tournament']['tournament_name'];
-						$tournament_date = $regTournament['Tournament']['tournament_date'];
 						$registration = array(
 							'Registration' => array (
 								'tournament_id' => $tournament_id,
-								'registered_user' => $name
+								'registered_name' => $fullname,
+								'registered_userid' => $user_id
 						));
 
-						if ($this->Registration->save($registration)) {
-							$message = 'User ' . $username . ' has signed up for ' . $tournament_name . ' on ' . $tournament_date . "\r\n" . "\r\n" . 'User Email: ' . $email . "\r\n" . 'User Name: ' . $name . "\r\n" . 'User Phone Number: ' . $phone . '';
+						if ($this->Registration->save($registration, true, array('tournament_id', 'registered_name', 'registered_userid'))) {
+							$username = $user['User']['username'];
+							$email = $user['User']['email'];
+							$phone = $user['User']['phone'];
+							$tournament_name = $regTournament['Tournament']['tournament_name'];
+							$tournament_date = $regTournament['Tournament']['tournament_date'];
+							$message = 'User ' . $username . ' has signed up for ' . $tournament_name . ' on ' . $tournament_date . "\r\n" . "\r\n" . 'User Email: ' . $email . "\r\n" . 'User Name: ' . $fullname . "\r\n" . 'User Phone Number: ' . $phone . '';
 
 							$Email = new CakeEmail('gmail');
 							$Email->from(array('helperbot@vstg.com' => 'VS Tournament Gaming'))
